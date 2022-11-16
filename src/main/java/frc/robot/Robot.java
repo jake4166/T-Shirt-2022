@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
   private final Solenoid B = new Solenoid(PneumaticsModuleType.CTREPCM, 1);
   private final Solenoid A = new Solenoid(PneumaticsModuleType.CTREPCM, 2);
   private final Solenoid X = new Solenoid(PneumaticsModuleType.CTREPCM, 3);
+  private final Solenoid airHorn = new Solenoid(PneumaticsModuleType.CTREPCM, 9);
 
   private XboxController controller = new XboxController(0);
    
@@ -49,17 +50,21 @@ public void teleopPeriodic() {
     final boolean buttonA = controller.getRawButton(1);
     final boolean buttonX = controller.getRawButton(3);
     final boolean buttonY = controller.getRawButton(4);
+    final boolean buttonAirHorn = controller.getRawButton(9);
     //final boolean buttonR = stick.getRawButton(6);
     //double differential = Math.abs(stick.getX() / 4);
     c.enableDigital();
     //drive.arcadeDrive(stick);
-    m_myRobot.arcadeDrive(controller.getLeftX()*0.75, controller.getRightY()*-0.75);
+    m_myRobot.arcadeDrive(controller.getLeftY()*0.75, controller.getRightX()*-0.75);
     //if (buttonR == true){
         //m_myRobot.arcadeDrive(stick.getRawAxis(1)*-0.75, stick.getX()*-1);
 
   
-    
-    
+    if (buttonAirHorn) {
+      airHorn.set(true);
+      Timer.delay(2);
+      airHorn.set(false);
+    }
     
     if(buttonA){
       A.set(true);
